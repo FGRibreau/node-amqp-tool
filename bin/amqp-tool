@@ -1,0 +1,188 @@
+#!/usr/bin/env node
+
+"use strict";
+
+var VERSION = '0.0.1'
+,   arg = require('optimist')
+,   argv = arg.usage('Usage: $0 [options] [-import dump.json | -export dump.json]')
+
+    .describe('host', 'host')
+      .default('host', 'localhost')
+    
+    .describe('user', 'username')
+      .alias('user', 'u')
+      .default('user', 'guest')
+    
+    .describe('password', 'password')
+      .alias('password', 'p')
+      .default('password', 'guest')
+    
+    .describe('port', 'port')
+      .default('port', 5672)
+    
+    .describe('vhost', 'vhost')
+      .default('vhost', '/')
+    
+    .describe('queue', 'queue\'s name to work with')
+      .alias('queue', 'q')
+      .demand('queue')
+
+    
+      .describe('passive', 'set it to true if the queue already exist')
+        .default('passive', true)
+      
+      .describe('durable', 'the queue will survive a borker restart')
+      
+      .describe('autoDelete', 'the queue will be deleted when there is no more subscriptions')
+    
+    .describe('export', 'export [filename], export queue\'s content to')
+
+    .describe('import', 'import [filename], export file content into the queue')
+
+      .describe('count', 'number of message to export/import')
+      .alias('count', 'count')
+      .demand('count')
+
+    .describe('v', 'verbose mode')
+      .alias('v', 'verbose')
+      .default('v', false)
+
+    .describe('h', 'produce this help message')
+      .alias('h','help')
+    
+    .argv
+
+,   AmqpDSL = require('amqp-dsl')
+,   fs = require('fs')
+,   queueOptions = {};
+
+
+if(argv.h){
+  return arg.showHelp(console.error);
+}
+
+argv.timeout *= 1000;
+
+if(!argv.import && !argv.export || (typeof argv.import != 'string' && typeof argv.export != 'string')){
+  console.error("Missing command [import | export]");
+  console.error("  --import ./filename.json");
+  console.error("  --export ./filename.json");
+  return;
+}
+
+// Log functions
+function logError(event, prefix){
+  return argv.verbose ? function(err){
+      console.error(prefix || '','::', event, err);
+  } : function(){};
+}
+
+function logInfo(){
+  var args = Array.prototype.slice.call(arguments);
+  return argv.verbose ? function(){console.info.apply(null, args);} : function(){};
+}
+
+// Import/Export function
+function importQueue(queue){
+  //http://www.quora.com/What-is-the-best-way-to-read-a-file-line-by-line-in-node-js
+  //https://github.com/pkrumins/node-lazy
+}
+
+/*
+  File format:
+
+    module.exports = {
+      comment:'Data exported with amqp-tool',
+      queue:'queueName',
+      version:'x.x.x',
+      data:[
+      ********************************
+      **  DATA separated by ",\n"   **
+      ********************************
+    ]};
+*/
+function exportQueue(conn, queue, filename){
+  var stream = fs.createWriteStream(filename)
+  ,   timeout = null
+  ,   i = 0;
+
+  stream.once('open', function(){
+
+    fileWriteTop(stream);
+
+    queue.subscribe({ack:true},function(message, header, deliveryInfo){
+      stream.write((i>0?',':'')+JSON.stringify([message, header, deliveryInfo])+"\n");
+
+      if(++i == argv.count){
+        queue.unsubscribe(deliveryInfo.consumerTag);
+        conn.end();
+        whenDone();
+      } else {
+        queue.shift();
+      }
+    });
+
+  });
+
+  function fileWriteTop(stream){
+    stream.write("module.exports = {\n");
+    stream.write("\"comment\":\"Data exported with amqp-tool\",\n");
+    stream.write("\"created_at\":\""+(+new Date())+"\",\n");
+    stream.write("\"queue\":\""+argv.queue+"\",\n");
+    stream.write("\"version\":\""+VERSION+"\",\n");
+    stream.write("\"data\":[\n");
+  }
+
+  function fileWriteBottom(stream){
+    stream.write("\n]};");
+  }
+
+  function whenDone(){
+    logInfo('Terminating...')();
+    fileWriteBottom(stream);
+
+    stream.once('drain', function(){
+      stream.end();
+      stream.destroySoon();
+    });
+
+    stream.once('close', logInfo('Done.'))
+  }
+}
+
+// Build queue options
+['passive','durable', 'autoDelete'].forEach(function(o){
+  if(argv[o]){
+    queueOptions[o]=argv[o];
+  }  
+});
+
+// Connect
+AmqpDSL.login({
+  login:argv.user
+, password:argv.password
+, host:argv.host
+, port:argv.port
+})
+.on('close', logError('close','RabbitMQ connection closed'))
+.on('error', logError('error','RabbitMQ'))
+.queue(argv.queue, queueOptions, logInfo('Connected to queue "'+argv.queue+'"'))
+.connect(function(err, amqp){
+
+  if(err){
+    throw err;
+    return;
+  }
+  
+  logInfo([(argv.import ? 'Importing' : 'Exporting')
+          , ' queue "'
+          , argv.queue
+          , '" to "'
+          , argv.import || argv.export
+          , '"'
+          ].join(''))();
+
+  argv.export && exportQueue(amqp.connection, amqp.queues[argv.queue], argv.export);
+
+  argv.import && importQueue(amqp.connection, amqp.queues[argv.queue], argv.import);
+});

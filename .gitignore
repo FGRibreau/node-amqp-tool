@@ -1,0 +1,10 @@
+# node
+node_modules
+
+*.rdb
+*.log
+
+dump.json
+
+# mac
+DS_STORE
