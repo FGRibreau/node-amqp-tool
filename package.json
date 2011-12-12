@@ -2,9 +2,12 @@
     "name" : "amqp-tool",
     "description" : "Rabbitmq-tool - import/export data from a RabbitMQ broker",
     "keywords": ["amqp","rabbitmq", "tool", "export", "import"],
-    "version": "0.0.1",
-    "homepage": "https://github.com/FGRibreau/node-amqp-dsl",
-    "repository": "git://github.com/FGRibreau/node-amqp-dsl.git",
+    "version": "0.0.1+pre",
+    "homepage": "https://github.com/FGRibreau/node-amqp-tool",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/FGRibreau/node-amqp-tool.git"
+    },
     
     "dependencies": { 
         "optimist":"0.3.0",
@@ -15,8 +18,7 @@
         "amqp-tool":     "./bin/amqp-tool",
         "rabbitmq-tool": "./bin/amqp-tool"
     },
-
-    "repository": "",
+    
     "author" : "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com)",
     "engines": { "node": ">= 0.4.12" }
 }
