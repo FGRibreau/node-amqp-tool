@@ -26,18 +26,36 @@ Options:
   -h, --help      produce this help message
 ```
 
-### Export the first 5000 messages of a queue into a file
+### Export the first 5000 messages of a queue
+into a file ...
 
-    amqp-tool --host rabbitmq.local -u user -p azerty -q queuetest --export dump.json --count 5000
+    amqp-tool --host rabbitmq.local -u user -p azerty -q queuetest --count 5000 --export dump.json
 
-or
+... or to `stdout`
 
-    amqp-tool --host rabbitmq.local -u user -p azerty -q queuetest --export --count 5000 > dump.json
+    amqp-tool --host rabbitmq.local -u user -p azerty -q queuetest --count 5000 --export > dump.json
 
 
 ### Continuously export a queue into a file
 
     amqp-tool --host rabbitmq.local -u user -p azerty -q queuetest --export > dump.json
 
-## TODO
- * Import messages into a queue from a file.json or `stdout`
+
+### Import all messages to a queue
+from a file...
+
+    amqp-tool --host rabbitmq.local -u user -p azerty -q queuetest --import dump.json
+
+...or from `stdin`
+
+    cat dump.json | amqp-tool --host rabbitmq.local -u user -p azerty -q queuetest --import
+
+### Import the first 10 messages of a file into a queue
+
+    head -n10 500messages.json | amqp-tool --host rabbitmq.local -u user -p azerty -q queuetest --import
+
+### Continuously transfer message between two RabbitMQ Server (just for fun)
+
+    amqp-tool --host rabbitmq1.local -u user -p azerty -q queue1 --export | amqp-tool \
+    --host rabbitmq2.local -u user -p azerty -q queue2 --import
+    ue from a file.json or `stdout`
