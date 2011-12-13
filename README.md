@@ -1,4 +1,4 @@
-## (Work in Progress, will be released through npm soon) ##
+`AMQP-tool` is a cli for importing and/or exporting message from/to an AMQP/RabbitMQ broker.
 
 ## Installation
 
@@ -6,7 +6,7 @@
 
 ## Usage overview
 
-```bash
+```
 Usage: node ./bin/amqp-tool [options] [-import | -export]
 
 Options:
@@ -36,9 +36,11 @@ into a file ...
     amqp-tool --host rabbitmq.local -u user -p azerty -q queuetest --count 5000 --export > dump.json
 
 
+
 ### Continuously export a queue into a file
 
     amqp-tool --host rabbitmq.local -u user -p azerty -q queuetest --export > dump.json
+
 
 
 ### Import all messages to a queue
@@ -50,12 +52,12 @@ from a file...
 
     cat dump.json | amqp-tool --host rabbitmq.local -u user -p azerty -q queuetest --import
 
+
 ### Import the first 10 messages of a file into a queue
 
     head -n10 500messages.json | amqp-tool --host rabbitmq.local -u user -p azerty -q queuetest --import
 
+
 ### Continuously transfer message between two RabbitMQ Server (just for fun)
 
-    amqp-tool --host rabbitmq1.local -u user -p azerty -q queue1 --export | amqp-tool \
-    --host rabbitmq2.local -u user -p azerty -q queue2 --import
-    ue from a file.json or `stdout`
+    amqp-tool --host rabbitmq1.local -u user -p azerty -q queue1 --export | amqp-tool --host rabbitmq2.local -u user -p azerty -q queue2 --import
