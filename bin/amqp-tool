@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 
-var VERSION = '0.0.1'
-,   Lazy = require('Lazy')
+var VERSION = '0.0.3'
+,   Lazy = require('lazy')
 ,   arg = require('optimist')
 ,   argv = arg.usage('Usage: $0 [options] [-import | -export]')
 
