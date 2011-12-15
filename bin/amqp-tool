@@ -2,7 +2,7 @@
 "use strict";
 
 var VERSION = '0.0.1'
-,   Lazy = require('Lazy')
+,   Lazy = require('lazy')
 ,   arg = require('optimist')
 ,   argv = arg.usage('Usage: $0 [options] [-import | -export]')
 
