@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/FGRibreau/node-amqp-tool.png)](http://travis-ci.org/FGRibreau/node-amqp-tool)
 `AMQP-tool` is a cli for importing and/or exporting message from/to an AMQP/RabbitMQ broker.
 
 ## Installation
