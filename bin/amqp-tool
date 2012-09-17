@@ -23,8 +23,8 @@ var VERSION = '0.0.3'
       .demand('queue')
       .describe('passive', 'set it to true if the queue already exist')
         .default('passive', true)
-      .describe('durable', 'if specified the queue will survive a borker restart')
-      .describe('autoDelete', 'if specified the queue will be deleted when there is no more subscriptions')
+      .describe('durable', 'if specified the queue will survive a broker restart')
+      .describe('autoDelete', 'if specified the queue will be deleted when there are no more subscriptions')
     .describe('export', 'export [filename], export queue\'s content to filename')
     .describe('import', 'import [filename], export file content into the queue')
       .describe('count', 'limit the number of message to export/import')
@@ -54,10 +54,11 @@ if(!argv.import && !argv.export){
 }
 
 // Toolbox
-Function.prototype.curry = Function.prototype.curry || function(arg){
-  var fn = this;
+Function.prototype.curry = Function.prototype.curry || function(/* args */){
+  var args = Array.prototype.slice.call(arguments)
+  ,   fn = this;
   return function(){
-    return fn.apply(this, [arg].concat(Array.prototype.slice.call(arguments)));
+    return fn.apply(this, args.concat(Array.prototype.slice.call(arguments)));
   }
 }
 
@@ -84,6 +85,13 @@ function importQueue(conn, exchange, streamController){
   function startImport(_stream){
     stream = _stream;
 
+
+    process.on('SIGINT', streamController.close.curry(stream, function(){
+      process.exit(0);
+    }));
+
+
+
     // When no more data come from stdin or from the file
     stream.once('end', stopImport);
 
@@ -96,7 +104,13 @@ function importQueue(conn, exchange, streamController){
 
   function importMsg(msg){
     // N33D ES6 : {message, header, deliveryInfo} = JSON.parse(msg);
-    var message = JSON.parse(msg);
+    var message;
+    try{
+      message = JSON.parse(msg);
+    } catch(err){
+      console.error("JSON PARSE ERROR", msg, err);
+      return;
+    }
 
     exchange.publish(message[2].routingKey, message[0]);
 
@@ -119,6 +133,11 @@ function exportQueue(conn, queue, streamController){
 
   function startExport(_stream){
     stream = _stream;
+
+    process.on('SIGINT', streamController.close.curry(stream, function(){
+      process.exit(0);
+    }));
+
     queue.subscribe({ack:true}, exportMsg);
   }
 
@@ -145,7 +164,7 @@ function exportQueue(conn, queue, streamController){
 // Build queue options
 ['passive','durable', 'autoDelete'].forEach(function(o){
   if(argv[o]){
-    queueOptions[o]=argv[o];
+    queueOptions[o]= argv[o] == 'true' ? true : false;
   }
 });
 
