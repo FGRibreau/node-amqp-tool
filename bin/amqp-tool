@@ -172,7 +172,7 @@ function exportQueue(conn, queue, streamController){
 AmqpDSL.login({
   login:argv.user
 , password:argv.password
-, host:argv.host
+, host:argv.vhost
 , port:argv.port
 })
 .on('close', logError('close','RabbitMQ connection closed'))
