@@ -2,7 +2,7 @@
     "name" : "amqp-tool",
     "description" : "Rabbitmq-tool - import/export data from a RabbitMQ broker",
     "keywords": ["amqp","rabbitmq", "tool", "export", "import"],
-    "version": "0.0.4",
+    "version": "0.0.5",
     "homepage": "https://github.com/FGRibreau/node-amqp-tool",
     "repository": {
         "type": "git",
@@ -13,7 +13,6 @@
         "optimist":"0.3.0",
         "amqp-dsl":"*",
         "lazy":"1.0.7",
-        "coffeescript":"*"
     },
 
     "bin":{
