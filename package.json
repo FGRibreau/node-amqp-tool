@@ -12,7 +12,7 @@
     "dependencies": { 
         "optimist":"0.3.0",
         "amqp-dsl":"*",
-        "lazy":"1.0.7",
+        "lazy":"1.0.7"
     },
 
     "bin":{
