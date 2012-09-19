@@ -115,7 +115,7 @@ function importQueue(conn, exchange, streamController){
       return;
     }
 
-    exchange.publish(message[2].routingKey, new Buffer(message[0] || ''));
+    exchange.publish(message[2].routingKey, message[0]);
 
     if(argv.count && ++count == argv.count){
       stopImport();
