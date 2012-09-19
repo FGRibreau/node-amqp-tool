@@ -23,8 +23,11 @@ var VERSION = '0.0.3'
       .demand('queue')
       .describe('passive', 'set it to true if the queue already exist')
         .default('passive', true)
+        .boolean('passive')
       .describe('durable', 'if specified the queue will survive a broker restart')
+        .boolean('durable')
       .describe('autoDelete', 'if specified the queue will be deleted when there are no more subscriptions')
+        .boolean('autoDelete')
     .describe('export', 'export [filename], export queue\'s content to filename')
     .describe('import', 'import [filename], export file content into the queue')
       .describe('count', 'limit the number of message to export/import')
@@ -164,7 +167,7 @@ function exportQueue(conn, queue, streamController){
 // Build queue options
 ['passive','durable', 'autoDelete'].forEach(function(o){
   if(argv[o]){
-    queueOptions[o]= argv[o] == 'true' ? true : false;
+    queueOptions[o]= !!argv[o];
   }
 });
 
