@@ -10,19 +10,19 @@
 Usage: node ./bin/amqp-tool [options] [-import | -export]
 
 Options:
-  --host          host                                                           [default: "localhost"]
-  --user, -u      username                                                       [default: "guest"]
-  --password, -p  password                                                       [default: "guest"]
-  --port          port                                                           [default: 5672]
-  --vhost         vhost                                                          [default: "/"]
-  --queue, -q     queue's name to work with                                      [required]
-  --passive       set it to true if the queue already exist                      [default: true]
-  --durable       the queue will survive a borker restart
-  --autoDelete    the queue will be deleted when there is no more subscriptions
-  --export        export [filename], export queue's content to filename          [default: "stdout"]
-  --import        import [filename], export file content into the queue          [default: "stdin"]
+  --host          host                                                                         [default: "localhost"]
+  --user, -u      username                                                                     [default: "guest"]
+  --password, -p  password                                                                     [default: "guest"]
+  --port          port                                                                         [default: 5672]
+  --vhost         vhost                                                                        [default: "/"]
+  --queue, -q     queue's name to work with                                                    [required]
+  --passive       set it to true if the queue already exist                                    [boolean]  [default: true]
+  --durable       if specified the queue will survive a broker restart                         [boolean]
+  --autoDelete    if specified the queue will be deleted when there are no more subscriptions  [boolean]
+  --export        export [filename], export queue's content to filename
+  --import        import [filename], export file content into the queue
   --count         limit the number of message to export/import
-  -v, --verbose   verbose mode                                                   [default: false]
+  -v, --verbose   verbose mode                                                                 [default: false]
   -h, --help      produce this help message
 ```
 
