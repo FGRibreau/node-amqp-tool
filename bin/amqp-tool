@@ -18,9 +18,10 @@ var VERSION = '0.0.3'
       .default('port', 5672)
     .describe('vhost', 'vhost')
       .default('vhost', '/')
+    .describe('exchange', 'exchange to work with')
+      .alias('exchange', 'e')
     .describe('queue', 'queue\'s name to work with')
       .alias('queue', 'q')
-      .demand('queue')
       .describe('passive', 'set it to true if the queue already exist')
         .default('passive', true)
         .boolean('passive')
@@ -53,6 +54,12 @@ if(!argv.import && !argv.export){
   console.error("Missing command [import | export]");
   console.error("  --import [./filename.json] (default: stdin)");
   console.error("  --export [./filename.json] (default: stdout)");
+  return;
+}
+
+if(!argv.queue || !argv.exchange){
+  console.error("Missing command [--queue | --exchange]");
+  console.error("  --queue myQueue or --exchange myExchange");
   return;
 }
 
