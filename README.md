@@ -64,3 +64,6 @@ from a file...
 ### Continuously transfer message between two RabbitMQ Server (just for fun)
 
     amqp-tool --host rabbitmq1.local -u user -p azerty -q queue1 --export | amqp-tool --host rabbitmq2.local -u user -p azerty -q queue2 --import
+
+## Donate
+[Donate Bitcoins](https://coinbase.com/checkouts/fc3041b9d8116e0b98e7d243c4727a30)
