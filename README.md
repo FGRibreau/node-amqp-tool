@@ -1,3 +1,6 @@
+Node AMQP Tool [![Gittip](http://badgr.co/gittip/fgribreau.png)](https://www.gittip.com/fgribreau/)
+----------------
+
 `AMQP-tool` is a cli for importing and/or exporting message from/to an AMQP/RabbitMQ broker.
 
 ## Installation
