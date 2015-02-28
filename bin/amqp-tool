@@ -57,7 +57,7 @@ if(!argv.import && !argv.export){
   return;
 }
 
-if(!argv.queue || !argv.exchange){
+if(!argv.queue && !argv.exchange){
   console.error("Missing command [--queue | --exchange]");
   console.error("  --queue myQueue or --exchange myExchange");
   return;
