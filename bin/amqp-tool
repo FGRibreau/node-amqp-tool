@@ -122,7 +122,17 @@ function importQueue(conn, exchange, streamController){
       return;
     }
 
-    exchange.publish(message[2].routingKey, message[0]);
+    var messageOptions = {
+      //appId: messageObject.appId,
+      //timestamp: messageObject.timestamp,
+      //contentType: message[2].contentType,
+      contentEncoding: message[2].contentEncoding,
+      deliveryMode: message[2].deliveryMode,
+      headers: message[2].headers,
+      //expiration: 10000
+    };
+
+    exchange.publish(message[2].routingKey, message[0], messageOptions);
 
     if(argv.count && ++count == argv.count){
       stopImport();
