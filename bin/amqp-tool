@@ -125,7 +125,9 @@ function importQueue(conn, exchange, streamController){
     // only define existing attributes
     var messageOptions = {};
     for (var attr in message[2]) {
-      messageOptions[attr] = message[2][attr];
+      if (message[2].hasOwnProperty(attr)) {
+        messageOptions[attr] = message[2][attr];
+      }
     }
 
     exchange.publish(message[2].routingKey, message[0], messageOptions);
