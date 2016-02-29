@@ -122,15 +122,11 @@ function importQueue(conn, exchange, streamController){
       return;
     }
 
-    var messageOptions = {
-      //appId: messageObject.appId,
-      //timestamp: messageObject.timestamp,
-      //contentType: message[2].contentType,
-      contentEncoding: message[2].contentEncoding,
-      deliveryMode: message[2].deliveryMode,
-      headers: message[2].headers,
-      //expiration: 10000
-    };
+    // only define existing attributes
+    var messageOptions = {};
+    for (var attr in message[2]) {
+      messageOptions[attr] = message[2][attr];
+    }
 
     exchange.publish(message[2].routingKey, message[0], messageOptions);
 
