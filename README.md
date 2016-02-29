@@ -1,4 +1,4 @@
-Node AMQP Tool [![Version](http://badge.fury.io/js/amqp-tool.png)](https://david-dm.org/FGRibreau/common-env)
+Node AMQP Tool [![Version](http://badge.fury.io/js/amqp-tool.png)](http://badge.fury.io/js/amqp-tool)
 ----------------
 
 `AMQP-tool` is a cli for importing and/or exporting message from/to an AMQP/RabbitMQ broker.
