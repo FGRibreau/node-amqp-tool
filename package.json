@@ -15,7 +15,7 @@
     "url": "git://github.com/FGRibreau/node-amqp-tool.git"
   },
   "dependencies": {
-    "optimist": "0.3.0",
+    "optimist": "0.6.1",
     "amqp-dsl": "*",
     "lazy": "1.0.x"
   },
