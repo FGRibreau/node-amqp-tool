@@ -25,6 +25,6 @@
   },
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com)",
   "engines": {
-    "node": ">= 0.4.12"
+    "node": ">= 4"
   }
 }
