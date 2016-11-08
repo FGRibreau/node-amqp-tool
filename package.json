@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "optimist": "0.3.0",
-    "amqp-dsl": "*",
+    "amqp-dsl": "2.0.1",
     "lazy": "1.0.x"
   },
   "bin": {
