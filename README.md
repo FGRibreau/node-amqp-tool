@@ -1,4 +1,4 @@
-Node AMQP Tool [![Version](http://badge.fury.io/js/amqp-tool.png)](http://badge.fury.io/js/amqp-tool) [![Get help on Codementor](https://cdn.codementor.io/badges/get_help_github.svg)](https://www.codementor.io/fgribreau?utm_source=github&utm_medium=button&utm_term=fgribreau&utm_campaign=github) 
+Node AMQP Tool [![Version](http://badge.fury.io/js/amqp-tool.png)](http://badge.fury.io/js/amqp-tool) [![Get help on Codementor](https://cdn.codementor.io/badges/get_help_github.svg)](https://www.codementor.io/francois-guillaume-ribreau?utm_source=github&utm_medium=button&utm_term=francois-guillaume-ribreau&utm_campaign=github) 
 ----------------
 
 `AMQP-tool` is a cli for importing and/or exporting message from/to an AMQP/RabbitMQ broker.
