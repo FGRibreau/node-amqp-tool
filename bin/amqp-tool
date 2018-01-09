@@ -138,7 +138,7 @@ function importQueue(conn, exchange, streamController){
   }
 
   function stopImport(){
-    streamController.close(stream, conn.destroySoon.bind(conn));
+    streamController.close(stream, conn.destroy.bind(conn));
   }
 }
 
@@ -173,7 +173,7 @@ function exportQueue(conn, queue, streamController){
   function stopExport(consumerTag){
     queue.unsubscribe(consumerTag);
 
-    streamController.close(stream, conn.destroySoon.bind(conn));
+    streamController.close(stream, conn.destroy.bind(conn));
   }
 
 }
