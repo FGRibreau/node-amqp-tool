@@ -29,6 +29,9 @@ var VERSION = '0.0.3'
         .boolean('durable')
       .describe('autoDelete', 'if specified the queue will be deleted when there are no more subscriptions')
         .boolean('autoDelete')
+      .describe('onlyBody', 'if specified export will contain only body of messages')
+      .default('onlyBody', false)
+        .boolean('onlyBody')
     .describe('export', 'export [filename], export queue\'s content to filename')
     .describe('import', 'import [filename], export file content into the queue')
       .describe('count', 'limit the number of message to export/import')
@@ -161,7 +164,11 @@ function exportQueue(conn, queue, streamController){
 
 
   function exportMsg(message, header, deliveryInfo){
-    stream.write(JSON.stringify([message, header, deliveryInfo])+"\n");
+    if(argv.onlyBody){
+      stream.write(JSON.stringify(message)+"\n");
+    } else {
+      stream.write(JSON.stringify([message, header, deliveryInfo])+"\n");
+    }
 
     queue.shift();
 
