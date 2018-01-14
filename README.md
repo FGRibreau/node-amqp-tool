@@ -22,6 +22,7 @@ Options:
   --passive       set it to true if the queue already exist                                    [boolean]  [default: true]
   --durable       if specified the queue will survive a broker restart                         [boolean]
   --autoDelete    if specified the queue will be deleted when there are no more subscriptions  [boolean]
+  --onlyBody      if specified export will contain only body of messages                       [boolean]  [default: false]
   --export        export [filename], export queue's content to filename
   --import        import [filename], export file content into the queue
   --count         limit the number of message to export/import
