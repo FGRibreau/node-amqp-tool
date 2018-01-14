@@ -8,7 +8,7 @@
     "export",
     "import"
   ],
-  "version": "0.0.11",
+  "version": "0.1.0",
   "homepage": "https://github.com/FGRibreau/node-amqp-tool",
   "repository": {
     "type": "git",
